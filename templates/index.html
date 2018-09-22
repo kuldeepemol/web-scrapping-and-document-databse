@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Mission to Mars</title>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container" style="text-align: center;">
+                <h1 class="display-4">Mission to Mars</h1>
+                <a class="btn btn-info btn-lg" href="/scrape" role="button">Scrape New Data</a>
+            </div>
+        </div>
+
+        <section>
+            <h2>Latest Mars News</h2>
+            <h6>{{ details['news_title'] }}</h6>
+            {{ details['news_para'] }}
+        </section>
+
+        <div class="row mt-5">
+            <div class="col-sm-12 col-md-8 col-lg-8">
+                <p>
+                    <h2>Featured Mars Image</h2>
+                    <img src="{{ details['featured_image_url'] }}" alt="Mars featured image" style="width: 100%; height: auto;">
+                </p>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Current Weather on Mars</h5>
+                        <p class="card-text">
+                            {{ details['mars_weather'] }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <h5>Mars Facts</h5>
+                    {{ details["html_table"]|safe }}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="mt-5" style="text-align: center;">
+            <h2>Mars Hemisphere</h2>
+        </div>
+        <hr>
+
+        {% for hemisphere_row in details['hemisphere_image_urls'] | batch(2, '&nbsp;') %}
+            <div class="row mt-3">
+                {% for hemisphere in hemisphere_row %}
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            <img class="card-img-top" src="{{ hemisphere['img_url'] }}" alt="{{ hemisphere['title'] }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ hemisphere['title'] }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>
